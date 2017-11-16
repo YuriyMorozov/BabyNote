@@ -1,0 +1,30 @@
+﻿@model ChildrenCalendar.Domain.Entities.Sleep
+
+
+        <tr id=@Model.Id.ToString()>
+            <td>
+                @ViewBag.Row
+            </td>
+            <td>
+                @Model.AsleepHour : @Model.AsleepMinute
+            </td>
+            <td>
+                @Model.AwakeHour : @Model.AwakeMinute
+            </td>
+            <td>
+                @using (Ajax.BeginForm("EditDB", "Sleep", new AjaxOptions { UpdateTargetId = @Model.Id.ToString() }))
+                {
+                    <div align="right">
+                        @Html.HiddenFor(Model => Model.Id)
+                        <input type="submit" class="btn btn-group-sm bottom-right btn-success" value="Edit" />
+                    </div>
+                }
+            </td>
+            <td>
+                @using (Html.BeginForm("RemoveFromDB", "Sleep"))
+                {
+                    @Html.HiddenFor(Model => Model.Id)
+                    <input type="submit" class="btn btn-group-sm btn-success" value="Delete" />
+                }
+            </td>
+        </tr>

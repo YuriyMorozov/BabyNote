@@ -72,10 +72,10 @@
                     @Html.DropDownListFor(x => x.natFeed.Minutes, new SelectList(Model.time.Minutes))
                 </td>
                 <td>
-                    @Html.DropDownListFor(x => x.natFeed.Puke, new SelectList(new List<Object> { @Resources.Resource.Yes, @Resources.Resource.No }))
+                    @Html.DropDownListFor(x => x.natFeed.Puke, new SelectList(new string[] { @Resources.Resource.Yes, @Resources.Resource.No }))
                 </td>
                 <td>
-                    @Html.DropDownListFor(x => x.natFeed.Hiccup, new SelectList(new List<Object> { @Resources.Resource.Yes, @Resources.Resource.No }))
+                    @Html.DropDownListFor(x => x.natFeed.Hiccup, new SelectList(new string[] { @Resources.Resource.Yes, @Resources.Resource.No }))
 </td>
                 <td>
                     <input type="submit" id="add" class="btn btn-group-sm bottom-right btn-success" value="@Resources.Resource.Add" />

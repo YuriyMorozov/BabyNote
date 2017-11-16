@@ -66,7 +66,7 @@
                     @Html.DropDownListFor(x => x.meal.Hour, new SelectList(Model.time.Hours)) : @Html.DropDownListFor(x => x.meal.Minute, new SelectList(Model.time.Minutes))
                 </td>
                 <td>
-                    @Html.DropDownListFor(x => x.meal.TypeProduct, new SelectList(new List<Object> { @Resources.Resource.Puree, @Resources.Resource.Soup, @Resources.Resource.Porridge, @Resources.Resource.Meat, @Resources.Resource.Fish, @Resources.Resource.Juice, @Resources.Resource.Compote, @Resources.Resource.Formula, @Resources.Resource.Dairy}))
+                    @Html.DropDownListFor(x => x.meal.TypeProduct, new SelectList(new string[] { @Resources.Resource.Puree, @Resources.Resource.Soup, @Resources.Resource.Porridge, @Resources.Resource.Meat, @Resources.Resource.Fish, @Resources.Resource.Juice, @Resources.Resource.Compote, @Resources.Resource.Formula, @Resources.Resource.Dairy}))
                 </td>
                 <td>
                     @Html.TextBoxFor(x => x.meal.Product)
