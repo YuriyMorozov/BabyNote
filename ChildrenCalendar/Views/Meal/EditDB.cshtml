@@ -1,0 +1,50 @@
+﻿@model ChildrenCalendar.Domain.Entities.Meal
+
+<td>
+    @Html.EditorFor(Model => Model.Date)
+</td>
+<td>
+    @Html.EditorFor(Model => Model.Hour, new { htmlAttributes = new { style = "Width:70px" } }) : @Html.EditorFor(Model => Model.Minute, new { htmlAttributes = new { style = "Width:70px" } })
+</td>
+<td>
+    @Html.EditorFor(Model => Model.TypeProduct, new { htmlAttributes = new { style = "Width:100px" } })
+</td>
+<td>
+    @Html.EditorFor(Model => Model.Product, new { htmlAttributes = new { style = "Width:100px" } })
+</td>
+<td>
+    @Html.EditorFor(Model => Model.Gramms, new { htmlAttributes = new { style = "Width:70px" } })
+</td>
+<td>
+    @Html.EditorFor(Model => Model.Comment)
+</td>
+<td>
+    <input type="button" id="save" class="btn btn-group-sm bottom-right btn-success" value="@Resources.Resource.Save" />
+</td>
+<td></td>
+<script type="text/javascript">
+    $(function()
+    {
+        $('#save').click(function () {
+            var id = @Model.Id;
+            var date = $("#Date").val();
+            var hr = $("#Hour").val();
+            var min = $("#Minute").val();
+            var tpr = $("#TypeProduct").val();
+            var pr = $("#Product").val();
+            var gr = $("#Gramms").val();
+            var cm = $("#Comment").val();
+            var data = {
+                Id: id,
+                Date: date,
+                Hour: hr,
+                Minute: min,
+                TypeProduct: tpr,
+                Product: pr,
+                Gramms: gr,
+                Comment: cm
+            };
+            $.post("@Url.Action("SaveDB", "Meal")", data, function(){window.location.href = "@Url.Action("List", "Meal")";});
+        });
+    });
+</script>

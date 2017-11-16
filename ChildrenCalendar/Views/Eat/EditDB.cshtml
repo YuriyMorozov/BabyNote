@@ -1,0 +1,50 @@
+﻿@model ChildrenCalendar.Domain.Entities.NatFeed
+
+<td>
+    @Html.EditorFor(Model => Model.Date)
+</td>
+<td>
+    @Html.EditorFor(Model => Model.FeedHour, new { htmlAttributes = new { style = "Width:70px" } }) : @Html.EditorFor(Model => Model.FeedMinute, new { htmlAttributes = new { style = "Width:70px" } })
+</td>
+<td>
+    @Html.EditorFor(Model => Model.Breast, new { htmlAttributes = new { style = "Width:70px" } })
+</td>
+<td>
+    @Html.EditorFor(Model => Model.Minutes, new { htmlAttributes = new { style = "Width:70px" } })
+</td>
+<td>
+    @Html.EditorFor(Model => Model.Puke, new { htmlAttributes = new { style = "Width:70px" } })
+</td>
+<td>
+    @Html.EditorFor(Model => Model.Hiccup, new { htmlAttributes = new { style = "Width:70px" } })
+</td>
+<td>
+    <input type="button" id="save" class="btn btn-group-sm bottom-right btn-success" value="@Resources.Resource.Save" />
+</td>
+
+<script type="text/javascript">
+    $(function()
+    {
+        $('#save').click(function () {
+            var id = @Model.Id;
+            var date = $("#Date").val();
+            var fh = $("#FeedHour").val();
+            var fm = $("#FeedMinute").val();
+            var br = $("#Breast").val();
+            var min = $("#Minutes").val();
+            var pk = $("#Puke").val();
+            var hc = $("#Hiccup").val();
+            var data = {
+                Id: id,
+                Date: date,
+                FeedHour: fh,
+                FeedMinute: fm,
+                Breast: br,
+                Minutes: min,
+                Puke: pk,
+                Hiccup: hc
+            };
+            $.post("@Url.Action("SaveDB", "Eat")", data, function(){window.location.href = "@Url.Action("List", "Eat")";});
+        });
+    });
+</script>

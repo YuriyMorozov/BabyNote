@@ -1,0 +1,86 @@
+﻿@model ChildrenCalendar.Models.EatListViewModel
+
+@if (Model.Meals.Count() != 0)
+{
+    int rowNo = 0;
+    <table class="table table-hover">
+        <tr>
+            <th>
+                №
+            </th>
+            <th>
+                @Resources.Resource.MealTime
+            </th>
+            <th>
+                @Resources.Resource.ProductType
+            </th>
+            <th>
+                @Resources.Resource.Product
+            </th>
+            <th>
+                @Resources.Resource.Qty
+            </th>
+            <th>
+                @Resources.Resource.Comment
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+        </tr>
+        @foreach (var p in Model.Meals)
+        {
+            ViewBag.Row = rowNo += 1;
+            @Html.Partial("Meals", p)
+        }
+    </table>
+}
+<h4>
+    <strong> @Resources.Resource.AddNote  </strong>
+</h4>
+
+<div class="well">
+    @using (Html.BeginForm("AddToDB", "Meal"))
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    @Resources.Resource.MealTime
+                </th>
+                <th>
+                    @Resources.Resource.ProductType
+                </th>
+                <th>
+                    @Resources.Resource.Product
+                </th>
+                <th>
+                   @Resources.Resource.Qty
+                </th>
+                <th>
+                    @Resources.Resource.Comment
+                </th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DropDownListFor(x => x.meal.Hour, new SelectList(Model.time.Hours)) : @Html.DropDownListFor(x => x.meal.Minute, new SelectList(Model.time.Minutes))
+                </td>
+                <td>
+                    @Html.DropDownListFor(x => x.meal.TypeProduct, new SelectList(new List<Object> { @Resources.Resource.Puree, @Resources.Resource.Soup, @Resources.Resource.Porridge, @Resources.Resource.Meat, @Resources.Resource.Fish, @Resources.Resource.Juice, @Resources.Resource.Compote, @Resources.Resource.Formula, @Resources.Resource.Dairy}))
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.meal.Product)
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.meal.Gramms)
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.meal.Comment)
+                </td>
+                <td>
+                    <input type="submit" id="add" class="btn btn-group-sm bottom-right btn-success" value="@Resources.Resource.Add" />
+                </td>
+            </tr>
+        </table>
+    }
+</div>

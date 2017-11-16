@@ -1,0 +1,77 @@
+﻿@model ChildrenCalendar.Models.VaccinationListViewModel
+
+
+@if (Model.Vaccinations.Count() != 0)
+{
+    int rowNo = 0;
+    <table class="table table-hover">
+        <tr>
+            <th>
+                №
+            </th>
+            <th>
+                @Resources.Resource.Date
+            </th>
+            <th>
+                @Resources.Resource.Vaccine
+            </th>
+            <th>
+                @Resources.Resource.Age
+            </th>
+            <th>
+                @Resources.Resource.Comment
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+        </tr>
+        @foreach (var p in Model.Vaccinations)
+        {
+            ViewBag.Row = rowNo += 1;
+            @Html.Partial("VacList", p)
+        }
+    </table>
+}
+<h4>
+    <strong> @Resources.Resource.AddNote </strong>
+</h4>
+
+<div class="well">
+    @using (Html.BeginForm("AddToDB", "Vaccination"))
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    @Resources.Resource.Date
+                </th>
+                <th>
+                    @Resources.Resource.Vaccine
+                </th>
+                <th>
+                    @Resources.Resource.Age
+                </th>
+                <th>
+                    @Resources.Resource.Comment
+                </th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>
+                    @Html.TextBoxFor(x => x.vac.Date, new { type = "text", id = "itemdatepicker" })
+                <td>
+                    @Html.DropDownListFor(x => x.vac.Vaccine, new SelectList(new string[] { @Resources.Resource.HepB, @Resources.Resource.RV, @Resources.Resource.DTaP, @Resources.Resource.Hib, @Resources.Resource.PCV, @Resources.Resource.IPV, @Resources.Resource.IIV, @Resources.Resource.MMR, @Resources.Resource.VAR, @Resources.Resource.HepA, @Resources.Resource.Meningococcal, @Resources.Resource.Tdap, @Resources.Resource.HPV, @Resources.Resource.PPSV }))
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.vac.Years) : @Html.TextBoxFor(x => x.vac.Months)
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.vac.Comment)
+                </td>
+                <td>
+                    <input type="submit" id="add" class="btn btn-group-sm bottom-right btn-success" value="@Resources.Resource.Add" />
+                </td>
+            </tr>
+        </table>
+    }
+</div>

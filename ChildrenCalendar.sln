@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChildrenCalendar", "ChildrenCalendar\ChildrenCalendar.csproj", "{941C5B34-22F9-4F62-85DC-4B23A5B9DFC3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChildrenCalendar.WebUi", "ChildrenCalendar\ChildrenCalendar.WebUi.csproj", "{941C5B34-22F9-4F62-85DC-4B23A5B9DFC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChildrenCalendar.Domain", "ChildrenCalendar.Domain\ChildrenCalendar.Domain.csproj", "{D3DACE3E-BFD6-438F-9E01-1569505C8027}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{941C5B34-22F9-4F62-85DC-4B23A5B9DFC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{941C5B34-22F9-4F62-85DC-4B23A5B9DFC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{941C5B34-22F9-4F62-85DC-4B23A5B9DFC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3DACE3E-BFD6-438F-9E01-1569505C8027}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3DACE3E-BFD6-438F-9E01-1569505C8027}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3DACE3E-BFD6-438F-9E01-1569505C8027}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3DACE3E-BFD6-438F-9E01-1569505C8027}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

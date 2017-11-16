@@ -1,0 +1,86 @@
+﻿@model ChildrenCalendar.Models.EatListViewModel
+
+@if (Model.NatFeeds.Count() != 0)
+{
+    int rowNo = 0;
+    <table class="table table-hover">
+        <tr>
+            <th>
+                №
+            </th>
+            <th>
+                @Resources.Resource.FeedTime
+            </th>
+            <th>
+                @Resources.Resource.Breast
+            </th>
+            <th>
+                @Resources.Resource.FeedDuration
+            </th>
+            <th>
+                @Resources.Resource.Puke
+            </th>
+            <th>
+                @Resources.Resource.Hiccup
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+        </tr>
+        @foreach (var p in Model.NatFeeds)
+        {
+            ViewBag.Row = rowNo += 1;
+            @Html.Partial("Eat", p)
+        }
+    </table>
+}
+<h4>
+    <strong> @Resources.Resource.AddNote  </strong>
+</h4>
+
+<div class="well">
+    @using (Html.BeginForm("AddToDB", "Eat"))
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    @Resources.Resource.FeedTime
+                </th>
+                <th>
+                    @Resources.Resource.Breast
+                </th>
+                <th>
+                    @Resources.Resource.FeedDuration
+                </th>
+                <th>
+                    @Resources.Resource.Puke
+                </th>
+                <th>
+                    @Resources.Resource.Hiccup
+                </th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DropDownListFor(x => x.natFeed.FeedHour, new SelectList(Model.time.Hours)) : @Html.DropDownListFor(x => x.natFeed.FeedMinute, new SelectList(Model.time.Minutes))
+                </td>
+                <td>
+                    @Html.DropDownListFor(x => x.natFeed.Breast, new SelectList(new List<Object> {  @Resources.Resource.Left ,  @Resources.Resource.Right  }))
+                </td>
+                <td>
+                    @Html.DropDownListFor(x => x.natFeed.Minutes, new SelectList(Model.time.Minutes))
+                </td>
+                <td>
+                    @Html.DropDownListFor(x => x.natFeed.Puke, new SelectList(new List<Object> { @Resources.Resource.Yes, @Resources.Resource.No }))
+                </td>
+                <td>
+                    @Html.DropDownListFor(x => x.natFeed.Hiccup, new SelectList(new List<Object> { @Resources.Resource.Yes, @Resources.Resource.No }))
+</td>
+                <td>
+                    <input type="submit" id="add" class="btn btn-group-sm bottom-right btn-success" value="@Resources.Resource.Add" />
+                </td>
+            </tr>
+        </table>
+    }
+</div>

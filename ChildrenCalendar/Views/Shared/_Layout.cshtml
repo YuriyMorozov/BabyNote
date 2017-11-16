@@ -1,0 +1,132 @@
+﻿@using System.Web.Optimization
+@using System.Threading
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="~/Content/themes/base/all.css">
+    <link rel="stylesheet" href="~/Content/Menu.css">
+    <link rel="stylesheet" href="~/Content/Lang.css">
+    <script type="text/javascript" src="~/scripts/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="~/scripts/jquery-ui-1.12.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#datepicker').datepicker({
+                dateFormat: 'dd.mm.yy',
+                onSelect: function () {
+                    var day = $("#datepicker").datepicker('getDate').getDate();
+                    var month = $("#datepicker").datepicker('getDate').getMonth() + 1;
+                    var year = $("#datepicker").datepicker('getDate').getFullYear();
+                    var datepick = day + "." + month + "." + year;
+                    $.post("@Url.Action("Index", "Date")", { date: datepick }, function () { window.location.href = "@Url.Action("List", (string)ViewBag.Controller)"; });
+                }
+            })
+        })
+        $(function () {
+            $('#itemdatepicker').datepicker({
+                dateFormat: 'dd.mm.yy'
+            })
+        })
+        @*function goToController(element) {
+            var goToContr = element.options[element.selectedIndex].value;
+            var url = '@Url.Action("GoTo", "SelectMenu", new { goToContr = "__goToContr__" })';
+            window.location.href = url.replace('__goToContr__', goToContr);
+        }*@
+        $(document).ready(function () {
+            var uaImgLink = "../Image/UA.png";
+            var ruImgLink = "../Image/RU.png";
+            var engImgLink = "../Image/GB.png";
+            var navSelImgLink = "../Image/Globe.png";
+
+            var imgNavSel = $('#imgNavSel');
+            var imgNavUa = $('#imgNavUa');
+            var imgNavRu = $('#imgNavRu');
+            var imgNavEng = $('#imgNavEng');
+
+            imgNavSel.attr("src", navSelImgLink);
+            imgNavUa.attr("src", uaImgLink);
+            imgNavRu.attr("src", ruImgLink);
+            imgNavEng.attr("src", engImgLink);
+
+            $(".language").on("click", function (event) {
+                var currentId = $(this).attr('id');
+
+                if (currentId == "uk") {
+                    imgNavSel.attr("src", uaImgLink);
+                } else if (currentId == "ru") {
+                    imgNavSel.attr("src", ruImgLink);
+                } else if (currentId == "en") {
+                    imgNavSel.attr("src", engImgLink);
+                }
+                $.get("@Url.Action("ChangeCulture", "Home")", { lang: currentId }, function () { window.location.href = "@Url.Action("List", (string)ViewBag.Controller)"; });
+            });
+        });
+    </script>
+
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div id="header">
+        <div class="logo">
+            <a href="#">BabyNote</a>
+        </div>
+        <nav>
+            @*<form class="search">
+                    <input name="q" placeholder="Search..." type="search">
+                </form>*@
+            <ul>
+                <li>
+                    <a href="">@Resources.Resource.Home</a>
+                </li>
+                <li class="dropdown">
+                    <a href="#">@Resources.Resource.Health</a>
+                    <ul>
+                        <li><a href="@Url.Action("List","Vaccination")">@Resources.Resource.Vaccination</a></li>
+                        <li><a href="#">@Resources.Resource.DocVisit</a></li>
+                        <li><a href="#">@Resources.Resource.Illness</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#">@Resources.Resource.Nutrition</a>
+                    <ul>
+                        <li><a href="@Url.Action("List","Eat")">@Resources.Resource.BreastFeed</a></li>
+                        <li><a href="@Url.Action("List","Meal")">@Resources.Resource.Meal</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="@Url.Action("List","Sleep")">@Resources.Resource.Sleep</a>
+                </li>
+                <li>
+                    <a href="">@Resources.Resource.Activity</a>
+                </li>
+                <li>
+                    <a href="">@Resources.Resource.Contact</a>
+                </li>
+                @*<div id="navbar" class="navbar-collapse collapse navbar-right">*@
+                <li class="dropdown navbar-collapse navbar-right">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><img id="imgNavSel" src="" alt="..." class="img-thumbnail icon-small"> <span class="caret"></span></a>
+                    <ul @*class="dropdown-menu" role="menu"*@>
+                        <li><a id="uk" href="#" class="language"> <img id="imgNavUa" src="" alt="..." class="img-thumbnail icon-small">  <span id="lanNavUa">UA</span></a></li>
+                        <li><a id="ru" href="#" class="language"> <img id="imgNavRu" src="" alt="..." class="img-thumbnail icon-small">  <span id="lanNavRu">RUS</span></a></li>
+                        <li><a id="en" href="#" class="language"><img id="imgNavEng" src="" alt="..." class="img-thumbnail icon-small">  <span id="lanNavEng">ENG</span></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="row panel">
+        <div class="col-xs-10" style="padding-left:250px">
+            <h4>
+                <strong> @Resources.Resource.Date: <input type="text" id="datepicker" name="date" value=@Date.date /> </strong>
+            </h4>
+            @RenderBody()
+        </div>
+    </div>
+    @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
+</body>
+</html>

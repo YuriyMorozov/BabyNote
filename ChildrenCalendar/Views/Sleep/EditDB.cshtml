@@ -1,0 +1,40 @@
+﻿@model ChildrenCalendar.Domain.Entities.Sleep
+
+                <td>
+                    @Html.EditorFor(Model => Model.Date)
+                </td>
+                <td>
+                    @Html.EditorFor(Model => Model.AsleepHour, new { htmlAttributes = new { style = "Width:70px" } }): <span>@Html.EditorFor(Model => Model.AsleepMinute, new { htmlAttributes = new { style = "Width:70px" } })</span>
+                </td>
+                <td>
+                    @Html.EditorFor(Model => Model.AwakeHour, new { htmlAttributes = new { style = "Width:70px" } }) : @Html.EditorFor(Model => Model.AwakeMinute, new { htmlAttributes = new { style = "Width:70px" } })
+                </td>
+                <td>
+
+                </td>
+                <td>
+                    <input type="button" id="save" class="btn btn-group-sm bottom-right btn-success" value="@Resources.Resource.Save" />
+                </td>
+
+<script type="text/javascript">
+$(function()
+{
+    $('#save').click(function () {
+        var id = @Model.Id;
+        var date = $("#Date").val();
+        var ash = $("#AsleepHour").val();
+        var asm = $("#AsleepMinute").val();
+        var awh = $("#AwakeHour").val();
+        var awm = $("#AwakeMinute").val();
+        var data = {
+            Id: id,
+            Date: date,
+            AsleepHour: ash,
+            AsleepMinute: asm,
+            AwakeHour: awh,
+            AwakeMinute: awm
+        };
+        $.post("@Url.Action("SaveDB", "Sleep")", data, function(){window.location.href = "@Url.Action("List", "Sleep")";});
+    });
+});
+</script>

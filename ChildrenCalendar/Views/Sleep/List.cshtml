@@ -1,0 +1,61 @@
+﻿@model ChildrenCalendar.Models.SleepListViewModel
+
+@if (Model.Sleeps.Count() != 0)
+{
+    int rowNo = 0;
+    <table class="table table-hover">
+        <tr>
+            <th>
+                №
+            </th>
+            <th>
+                @Resources.Resource.Asleep
+            </th>
+            <th>
+                @Resources.Resource.Awake
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+        </tr>
+        @foreach (var p in Model.Sleeps)
+        {
+            ViewBag.Row = rowNo += 1;
+            @Html.Partial("Sleep", p)
+        }
+    </table>
+}
+<h4>
+    <strong> @Resources.Resource.AddNote  </strong>
+</h4>
+<div class="well">
+    @using (Html.BeginForm("AddToDB", "Sleep"))
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    @Resources.Resource.Asleep
+                </th>
+                <th>
+                    @Resources.Resource.Awake
+                </th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DropDownListFor(x => x.sleep.AsleepHour, new SelectList(Model.time.Hours)) : @Html.DropDownListFor(x => x.sleep.AsleepMinute, new SelectList(Model.time.Minutes))
+                </td>
+                <td>
+                    @Html.DropDownListFor(x => x.sleep.AwakeHour, new SelectList(Model.time.Hours)) : @Html.DropDownListFor(x => x.sleep.AwakeMinute, new SelectList(Model.time.Minutes))
+                </td>
+                <td>
+                    <input type="submit" id="add" class="btn btn-group-sm bottom-right btn-success" value="@Resources.Resource.Add" />
+                </td>
+            </tr>
+        </table>
+    }
+</div>
+<div class="btn-group pull-right">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x }))
+</div>
