@@ -1,0 +1,20 @@
+﻿
+@*@using ChildrenCalendar.Domain.Entities
+@model AppUser
+@{ ViewBag.Title = "UserProps";}
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Custom User Properties
+    </div>
+    <table class="table table-striped">
+        <tr><th>Gender</th><td>@Model.Gen</td></tr>
+    </table>
+</div>
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        <label>City</label>
+        @Html.DropDownListFor(x => x.Gen, new SelectList(Enum.GetNames(typeof(Gender))))
+    </div>
+    <button class="btn btn-primary" type="submit">Save</button>
+}*@
