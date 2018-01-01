@@ -1,5 +1,5 @@
 ﻿@using System.Web.Optimization
-@using System.Threading
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,11 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
-    <link href="~/Content/Site.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/Content/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="~/Content/themes/base/all.css">
     <link rel="stylesheet" href="~/Content/Menu.css">
     <link rel="stylesheet" href="~/Content/Lang.css">
+    <link rel="stylesheet" href="~/Content/Site.css">
+    <link rel="stylesheet" href="~/Content/None.css">
     <script type="text/javascript" src="~/scripts/jquery-3.1.1.js"></script>
     <script type="text/javascript" src="~/scripts/jquery-ui-1.12.1.js"></script>
     <script type="text/javascript">
@@ -63,7 +64,7 @@
                 } else if (currentId == "en") {
                     imgNavSel.attr("src", engImgLink);
                 }
-                $.get("@Url.Action("ChangeCulture", "Home")", { lang: currentId }, function () { window.location.href = "@Url.Action("List", (string)ViewBag.Controller)"; });
+                $.get("@Url.Action("ChangeCulture", "Home")", { lang: currentId }, function () { location.reload(); @*window.location.href = "@Url.Action("List", (string)ViewBag.Controller)";*@ });
             });
         });
     </script>
@@ -71,6 +72,16 @@
     <title>@ViewBag.Title</title>
 </head>
 <body>
+    <div id="account"style="text-align:right; margin-right: 20px; margin-top: 0px; ">
+        @if (User.Identity.IsAuthenticated)
+        {
+            @Html.Partial("AccountForAuthenticated")
+        }
+        else
+        {
+            @Html.Partial("AccountForNotAuthenticated")
+        } 
+    </div>
     <div id="header">
         <div class="logo">
             <a href="#">BabyNote</a>
@@ -81,7 +92,7 @@
                 </form>*@
             <ul>
                 <li>
-                    <a href="">@Resources.Resource.Home</a>
+                    <a href="@Url.Action("Index","Home")">@Resources.Resource.Home</a>
                 </li>
                 <li class="dropdown">
                     <a href="#">@Resources.Resource.Health</a>

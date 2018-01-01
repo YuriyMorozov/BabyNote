@@ -11,10 +11,14 @@ namespace ChildrenCalendar.Domain.Entities
     {
         [Key]
         public int Id { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? Date { get; set; }
         public int? AwakeHour { get; set; }
         public int? AwakeMinute { get; set; }
         public int? AsleepHour { get; set; }
         public int? AsleepMinute { get; set; }
+        public string UserId { get; set; }
+        public string Comment { get; set; }
     }
 }

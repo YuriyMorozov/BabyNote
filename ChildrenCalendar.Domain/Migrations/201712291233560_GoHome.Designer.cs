@@ -7,13 +7,13 @@ namespace ChildrenCalendar.Domain.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class NewTable : IMigrationMetadata
+    public sealed partial class GoHome : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(NewTable));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(GoHome));
         
         string IMigrationMetadata.Id
         {
-            get { return "201706221044427_NewTable"; }
+            get { return "201712291233560_GoHome"; }
         }
         
         string IMigrationMetadata.Source

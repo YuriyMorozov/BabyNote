@@ -11,6 +11,8 @@ namespace ChildrenCalendar.Domain.Entities
     {
         [Key]
         public int Id { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? Date { get; set; }
         public int? FeedHour { get; set; }
         public int? FeedMinute { get; set; }
@@ -18,5 +20,6 @@ namespace ChildrenCalendar.Domain.Entities
         public int? Minutes { get; set; }
         public string Puke { get; set; }
         public string Hiccup { get; set; }
+        public string UserId { get; set; }
     }
 }

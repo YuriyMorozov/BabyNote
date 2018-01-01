@@ -11,6 +11,9 @@
                 @Model.AwakeHour : @Model.AwakeMinute
             </td>
             <td>
+                @Model.Comment
+            </td>
+            <td>
                 @using (Ajax.BeginForm("EditDB", "Sleep", new AjaxOptions { UpdateTargetId = @Model.Id.ToString() }))
                 {
                     <div align="right">

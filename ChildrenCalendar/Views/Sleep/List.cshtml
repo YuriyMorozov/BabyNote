@@ -15,6 +15,9 @@
                 @Resources.Resource.Awake
             </th>
             <th>
+                @Resources.Resource.Comment
+            </th>
+            <th>
             </th>
             <th>
             </th>
@@ -40,6 +43,9 @@
                 <th>
                     @Resources.Resource.Awake
                 </th>
+                <th>
+                    @Resources.Resource.Comment
+                </th>
                 <th></th>
             </tr>
             <tr>
@@ -48,6 +54,9 @@
                 </td>
                 <td>
                     @Html.DropDownListFor(x => x.sleep.AwakeHour, new SelectList(Model.time.Hours)) : @Html.DropDownListFor(x => x.sleep.AwakeMinute, new SelectList(Model.time.Minutes))
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.sleep.Comment)
                 </td>
                 <td>
                     <input type="submit" id="add" class="btn btn-group-sm bottom-right btn-success" value="@Resources.Resource.Add" />

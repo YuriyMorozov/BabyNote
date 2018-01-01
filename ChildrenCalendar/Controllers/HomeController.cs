@@ -3,33 +3,87 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using ChildrenCalendar.Infrastructure;
+using System.Threading.Tasks;
+using ChildrenCalendar.Domain.Infrastructure;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using ChildrenCalendar.Domain.Entities;
 
 namespace ChildrenCalendar.Controllers
 {
-
+    [Authorize]
     public class HomeController : Controller
     {
-        // GET: Home
-        public RedirectToRouteResult Index()
+        //[Authorize]
+        [AllowAnonymous]
+        public ActionResult Index()
         {
-            return RedirectToAction("List", "Sleep");
+            return View(GetData("Index"));
         }
 
-        public ActionResult DevelopmentInfo()
+        [Authorize(Roles = "Users")]
+        public ActionResult OtherAction()
         {
-            return View();
+            return View("Index", GetData("OtherAction"));
         }
 
-        public ActionResult AboutInfo()
+        private Dictionary<string, object> GetData(string actionName)
         {
-            return View();
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            dict.Add("Action", actionName);
+            dict.Add("User", HttpContext.User.Identity.Name);
+            dict.Add("Authenticated", HttpContext.User.Identity.IsAuthenticated);
+            dict.Add("Auth Type", HttpContext.User.Identity.AuthenticationType);
+            dict.Add("In Users Role", HttpContext.User.IsInRole("Users"));
+            return dict;
         }
 
-        public ActionResult OneMonth()
+        //[Authorize]
+        public ActionResult UserProps()
         {
-            return View();
+            return View(CurrentUser);
         }
+
+        //[Authorize]
+        [HttpPost]
+        public async Task<ActionResult> UserProps(Gender gen)
+        {
+            AppUser user = CurrentUser;
+            user.Gen = gen;
+            await UserManager.UpdateAsync(user);
+            return View(user);
+        }
+
+        private AppUser CurrentUser
+        {
+            get
+            {
+                return UserManager.FindByName(HttpContext.User.Identity.Name);
+            }
+        }
+
+        private AppUserManager UserManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().GetUserManager<AppUserManager>();
+            }
+        }
+
+        //public ActionResult DevelopmentInfo()
+        //{
+        //    return View();
+        //}
+
+        //public ActionResult AboutInfo()
+        //{
+        //    return View();
+        //}
+
+        //public ActionResult OneMonth()
+        //{
+        //    return View();
+        //}
 
         [HttpGet]
         public EmptyResult ChangeCulture(string lang)

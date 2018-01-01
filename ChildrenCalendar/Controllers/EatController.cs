@@ -5,8 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using ChildrenCalendar.Domain.Abstract;
 using ChildrenCalendar.Domain.Entities;
-using ChildrenCalendar.Domain.Concrete;
+using ChildrenCalendar.Domain.Infrastructure;
 using ChildrenCalendar.Models;
+using Microsoft.AspNet.Identity;
 
 namespace ChildrenCalendar.Controllers
 {
@@ -14,7 +15,7 @@ namespace ChildrenCalendar.Controllers
     {
         private IRepository repository;
         public int PageSize = 10;
-        EFDbContext DBcontext = new EFDbContext();
+        AppDbContext DBcontext = new AppDbContext();
 
         public EatController(IRepository eatRepository)
         {
@@ -29,7 +30,7 @@ namespace ChildrenCalendar.Controllers
             EatListViewModel model = new EatListViewModel
             {
                 /*Skip((page - 1) * PageSize).Take(PageSize).*/
-                NatFeeds = feeds.Where(x => (x.Date.Value.Year == Date.date.Year) && (x.Date.Value.Month == Date.date.Month) && (x.Date.Value.Day == Date.date.Day)),
+                NatFeeds = feeds.Where(x => (x.UserId == User.Identity.GetUserId()) && (x.Date.Value.Year == Date.date.Year) && (x.Date.Value.Month == Date.date.Month) && (x.Date.Value.Day == Date.date.Day)),
                 PagingInfo = new PagingInfo { CurrentPage = page, ItemsPerPage = PageSize, TotalItems = repository.Sleeps.Count() }
             };
             return View(model);
@@ -37,6 +38,7 @@ namespace ChildrenCalendar.Controllers
 
         public RedirectToRouteResult AddToDB(NatFeed natFeed, string returnUrl)
         {
+            natFeed.UserId = User.Identity.GetUserId();
             natFeed.Date = Date.date;
             DBcontext.NatFeeds.Add(natFeed);
             DBcontext.SaveChanges();
@@ -67,6 +69,7 @@ namespace ChildrenCalendar.Controllers
 
         public RedirectToRouteResult SaveDB(NatFeed natFeed, string returnUrl)
         {
+            natFeed.UserId = User.Identity.GetUserId();
             DBcontext.Entry(natFeed).State = System.Data.Entity.EntityState.Modified;
             DBcontext.SaveChanges();
             return RedirectToAction("List", new { returnUrl });

@@ -1,12 +1,12 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using ChildrenCalendar.Domain.Abstract;
 using ChildrenCalendar.Domain.Entities;
-using ChildrenCalendar.Domain.Concrete;
+using ChildrenCalendar.Domain.Infrastructure;
 using ChildrenCalendar.Models;
+using Microsoft.AspNet.Identity;
 
 namespace ChildrenCalendar.Controllers
 {
@@ -14,7 +14,7 @@ namespace ChildrenCalendar.Controllers
     {
         private IRepository repository;
         public int PageSize = 10;
-        EFDbContext DBcontext = new EFDbContext();
+        AppDbContext DBcontext = new AppDbContext();
 
         public VaccinationController(IRepository vaccinationRepository)
         {
@@ -29,7 +29,7 @@ namespace ChildrenCalendar.Controllers
             VaccinationListViewModel model = new VaccinationListViewModel
             {
 
-                Vaccinations = vaccinations.Where(x => (x.Vaccine == vac)),
+                Vaccinations = vaccinations.Where(x => (x.UserId == User.Identity.GetUserId()) && (x.Vaccine == vac)),
                 PagingInfo = new PagingInfo { CurrentPage = page, ItemsPerPage = PageSize, TotalItems = repository.Sleeps.Count() }
             };
             return View(model);

@@ -1,12 +1,12 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using ChildrenCalendar.Domain.Abstract;
 using ChildrenCalendar.Domain.Entities;
-using ChildrenCalendar.Domain.Concrete;
+using ChildrenCalendar.Domain.Infrastructure;
 using ChildrenCalendar.Models;
+using Microsoft.AspNet.Identity;
 
 namespace ChildrenCalendar.Controllers
 {
@@ -14,7 +14,7 @@ namespace ChildrenCalendar.Controllers
     {
         private IRepository repository;
         public int PageSize = 10;
-        EFDbContext DBcontext = new EFDbContext();
+        AppDbContext DBcontext = new AppDbContext();
 
         public MealController(IRepository mealRepository)
         {
@@ -29,7 +29,7 @@ namespace ChildrenCalendar.Controllers
             EatListViewModel model = new EatListViewModel
             {
                 /*Skip((page - 1) * PageSize).Take(PageSize).*/
-                Meals = meals.Where(x => (x.Date.Value.Year == Date.date.Year) && (x.Date.Value.Month == Date.date.Month) && (x.Date.Value.Day == Date.date.Day)),
+                Meals = meals.Where(x => (x.UserId == User.Identity.GetUserId()) && (x.Date.Value.Year == Date.date.Year) && (x.Date.Value.Month == Date.date.Month) && (x.Date.Value.Day == Date.date.Day)),
                 PagingInfo = new PagingInfo { CurrentPage = page, ItemsPerPage = PageSize, TotalItems = repository.Sleeps.Count() }
             };
             return View(model);
@@ -37,6 +37,7 @@ namespace ChildrenCalendar.Controllers
 
         public RedirectToRouteResult AddToDB(Meal meal, string returnUrl)
         {
+            meal.UserId = User.Identity.GetUserId();
             meal.Date = Date.date;
             DBcontext.Meals.Add(meal);
             DBcontext.SaveChanges();
@@ -66,6 +67,7 @@ namespace ChildrenCalendar.Controllers
 
         public RedirectToRouteResult SaveDB(Meal meal, string returnUrl)
         {
+            meal.UserId = User.Identity.GetUserId();
             DBcontext.Entry(meal).State = System.Data.Entity.EntityState.Modified;
             DBcontext.SaveChanges();
             return RedirectToAction("List", new { returnUrl });

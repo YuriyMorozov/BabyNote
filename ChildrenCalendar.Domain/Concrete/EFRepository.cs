@@ -1,12 +1,13 @@
 ﻿using ChildrenCalendar.Domain.Abstract;
 using ChildrenCalendar.Domain.Entities;
+using ChildrenCalendar.Domain.Infrastructure;
 using System.Collections.Generic;
 
 namespace ChildrenCalendar.Domain.Concrete
 {
     public class EFRepository : IRepository
     {
-        private EFDbContext context = new EFDbContext();
+        private AppDbContext context = new AppDbContext();
 
         public IEnumerable<Sleep> Sleeps
         {

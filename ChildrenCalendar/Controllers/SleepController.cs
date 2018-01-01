@@ -1,29 +1,28 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using ChildrenCalendar.Domain.Abstract;
 using ChildrenCalendar.Domain.Entities;
-using ChildrenCalendar.Domain.Concrete;
+using ChildrenCalendar.Domain.Infrastructure;
 using ChildrenCalendar.Models;
+using Microsoft.AspNet.Identity;
 
 namespace ChildrenCalendar.Controllers
 {
     public class SleepController : Controller
     {
-       
-        // GET: Sleep
+
         private IRepository repository;
         public int PageSize = 10;
-        EFDbContext DBcontext = new EFDbContext();
-
+        AppDbContext DBcontext = new AppDbContext();
+    
         public SleepController(IRepository sleepRepository)
         {
             repository = sleepRepository;
         }
 
-        public ViewResult List( int page = 1)
+        public ViewResult List(int page = 1)
         {
             ViewBag.Controller = "Sleep";
             IEnumerable<Sleep> sleeps = repository.Sleeps.ToList();
@@ -31,7 +30,7 @@ namespace ChildrenCalendar.Controllers
             SleepListViewModel model = new SleepListViewModel
             {
                 /*Skip((page - 1) * PageSize).Take(PageSize).*/
-                Sleeps = sleeps.Where(x => (x.Date.Value.Year == Date.date.Year) && (x.Date.Value.Month == Date.date.Month) && (x.Date.Value.Day == Date.date.Day)),
+                Sleeps = sleeps.Where(x => (x.UserId == User.Identity.GetUserId()) && (x.Date.Value.Year == Date.date.Year) && (x.Date.Value.Month == Date.date.Month) && (x.Date.Value.Day == Date.date.Day)),
                 PagingInfo = new PagingInfo { CurrentPage = page, ItemsPerPage = PageSize, TotalItems = repository.Sleeps.Count() }
             };
             return View(model);
@@ -39,6 +38,7 @@ namespace ChildrenCalendar.Controllers
 
         public RedirectToRouteResult AddToDB(Sleep sleep, string returnUrl)
         {
+            sleep.UserId = User.Identity.GetUserId();
             sleep.Date = Date.date;
             DBcontext.Sleep.Add(sleep);
             DBcontext.SaveChanges();
@@ -66,12 +66,14 @@ namespace ChildrenCalendar.Controllers
             Sleep sl = DBcontext.Sleep.FirstOrDefault(x => x.Id == sleep.Id);
             return PartialView(sl);
         }
- 
+
         public RedirectToRouteResult SaveDB(Sleep sleep)
         {
+            sleep.UserId = User.Identity.GetUserId();
             DBcontext.Entry(sleep).State = System.Data.Entity.EntityState.Modified;
             DBcontext.SaveChanges();
             return RedirectToAction("List");
         }
+
     }
 }
